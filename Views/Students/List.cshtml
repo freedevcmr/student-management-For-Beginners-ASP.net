@@ -7,7 +7,12 @@
 @model List<StudentCrud.Models.Entities.Student>
 
 <h1>Liste des Eleves</h1>
-
+<div>
+    <a  class="btn btn-primary"
+            asp-action="add" asp-controller="Students">
+        ajouter 
+    </a>
+</div>
 <table class="table">
     <thead>
         <tr>
@@ -25,7 +30,7 @@
                 <td>@student.Name</td>
                 <td>@student.Email</td>
                 <td>
-                    <a>Edit</a>
+                    <a class="btn btn-outline-primary" asp-controller="Students" asp-action="Edit" asp-route-id="@student.Id">Edit</a>
                 </td>
             </tr>
         }

@@ -33,7 +33,7 @@ namespace StudentCrud.Controllers
             await dbContext.Students.AddAsync(student);
             dbContext.SaveChanges();
 
-            return View();
+            return RedirectToAction("List", "Students");
         }
 
         [HttpGet]
@@ -42,6 +42,52 @@ namespace StudentCrud.Controllers
             var students = await dbContext.Students.ToListAsync();
             return View(students);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(Guid id)
+        {
+            var student = await  dbContext.Students.FindAsync(id);
+
+            return View(student);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(Student viewModel)
+        {
+            var student = await dbContext.Students.FindAsync(viewModel.Id); 
+
+            if(student is not null)
+            {
+                student.Name = viewModel.Name;
+                student.Email = viewModel.Email;
+                student.Phone = viewModel.Phone;
+                student.Subscribed = viewModel.Subscribed;
+                
+                await dbContext.SaveChangesAsync();
+            }
+
+
+
+            return RedirectToAction("List", "Students");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> delete(Student viewModel)
+        {
+            var student = await dbContext.Students.FindAsync(viewModel.Id);
+
+            if (student is not null)
+            {
+
+                dbContext.Students.Remove(student);
+               await dbContext.SaveChangesAsync();
+                
+            }
+            return RedirectToAction("List", "Students");
+        }
+
+
+
 
 
     }
